@@ -1,0 +1,45 @@
+﻿@page "/momento-counter"
+@using BlazorAppContainer.Data
+
+<PageTitle>Momento Counter</PageTitle>
+
+<h1>Momento Counter</h1>
+
+<p role="status">Current count: @currentCount</p>
+
+<p>Errorはここに表示: @ErrorMessage</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Cache set</button>
+<button class="btn btn-primary" @onclick="ResetValue">Cache Reset</button>
+
+@code {
+    MomentoCacheSample cache = new();
+
+    private int currentCount = 0;
+    private string ErrorMessage = "";
+    private void IncrementCount()
+    {
+        currentCount++;
+        try
+        {
+            cache.SetValue("BlazorApp", "BlazorCounter", currentCount.ToString());
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+
+    private void ResetValue()
+    {
+        currentCount = 0;
+        try
+        {
+            cache.SetValue("BlazorApp", "BlazorCounter", currentCount.ToString());
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+    }
+}
