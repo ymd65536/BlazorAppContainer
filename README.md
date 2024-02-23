@@ -49,48 +49,14 @@ AWS App RunnerにBlazorアプリケーションをデプロイする方法につ
 
 今回はGitHubとAWSアカウントを連携してAWSマネジメントコンソールによるデプロイを紹介します。
 
-## AWSにDockerイメージをpushする
-
-### Dockerイメージのビルドとコンテナの起動
+## Dockerイメージのビルドとコンテナの起動
 
 以下のコマンドではDockerイメージをビルドし、コンテナを起動します。
 
 ```bash
-docker build -t blazorappcontainer . --no-cache
+docker build -t blazorappcontainer . --no-cache --platform linux/amd64
 ```
 
 ```bash
 docker run --rm -p 8080:8080 --name blazorappcontainer blazorappcontainer
-```
-
-### ECRにDockerイメージをpushする
-
-アカウントIDをAWS CLIで取得します。
-
-```bash
-AWS_ACCOUNTID=`aws sts get-caller-identity --query Account --output text --profile yamada999`
-```
-
-ECRリポジトリを作成します。
-
-```bash
-aws ecr create-repository --repository-name blazorappcontainer --profile yamada999
-```
-
-DockerイメージをECRにpushするためにログインします。
-
-```bash
-aws ecr get-login-password --region ap-northeast-1 --profile yamada999 | docker login --username AWS --password-stdin $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazonaws.com
-```
-
-Dockerイメージにタグを付けます。
-
-```bash
-docker tag blazorappcontainer:latest $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazonaws.com/blazorappcontainer:latest
-```
-
-DockerイメージをECRにpushします。
-
-```bash
-docker push $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazonaws.com/blazorappcontainer:latest
 ```
