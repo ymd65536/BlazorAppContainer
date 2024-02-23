@@ -35,6 +35,32 @@ dotnet run
 dotnet run --urls="https://localhost:7777"
 ```
 
+## Dockerイメージのビルドとコンテナの起動
+
+以下のコマンドではDockerイメージをビルドし、コンテナを起動します。
+
+```bash
+docker build -t blazorappcontainer . --platform linux/amd64 --no-cache
+```
+
+```bash
+docker run --rm -p 8080:8080 --name blazorappcontainer blazorappcontainer
+```
+
+## Google CloudにDockerイメージをpush
+
+```bash
+gcloud config set project $gcp_project
+gcloud auth login
+gcloud auth configure-docker
+gcloud artifacts repositories create blazorappcontainer --location=asia-northeast1 --repository-format=docker --project=$gcp_project
+docker build -t gcr.io/$gcp_project/blazorappcontainer . --platform linux/amd64
+
+docker push gcr.io/$gcp_project/blazorappcontainer:latest
+gcloud run deploy --image gcr.io/$gcp_project/blazorappcontainer:latest --region asia-northeast1 --platform managed
+gcloud components update
+```
+
 ## AWS App RunnerにBlazorアプリケーションをデプロイする方法
 
 AWS App RunnerにBlazorアプリケーションをデプロイする方法についてはいくつかあります。
