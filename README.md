@@ -31,7 +31,7 @@ aws ecr create-repository --repository-name blazorappcontainer --profile yamada9
 ```
 
 ```bash
-aws ecr get-login-password --region ap-northeast-1 --profile yamada999 | docker login --username AWS --password-stdin $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazonaws.com
+aws ecr get-login-password --region ap-northeast-1 | docker login --username AWS --password-stdin $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazonaws.com
 ```
 
 ```bash
