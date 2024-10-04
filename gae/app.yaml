@@ -1,0 +1,18 @@
+runtime: aspnetcore
+env: flex
+
+runtime_config:
+  runtime_version: "8"
+  operating_system: ubuntu22
+
+manual_scaling:
+  instances: 1
+resources:
+  cpu: 1
+  memory_gb: 0.5
+  disk_size_gb: 10
+
+env_variables:
+  DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "false"
+  OTEL_EXPORTER_OTLP_ENDPOINT: "http://locahost:18889"
+  OTEL_SERVICE_NAME: "AppEngineAspire"

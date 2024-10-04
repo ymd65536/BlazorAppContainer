@@ -41,3 +41,25 @@ docker tag blazorappcontainer:latest $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazo
 ```bash
 docker push $AWS_ACCOUNTID.dkr.ecr.ap-northeast-1.amazonaws.com/blazorappcontainer:latest
 ```
+
+## Artifact レジストリにプッシュ
+
+[gcloud install](https://cloud.google.com/sdk/docs/install?hl=ja)
+
+```bash
+gcloud auth login
+export PROJECT_ID=`gcloud config get-value project`
+gcloud auth configure-docker asia-northeast1-docker.pkg.dev
+docker tag blazorappcontainer asia-northeast1-docker.pkg.dev/$PROJECT_ID/blazorappcontainer/blazorappcontainer:latest
+docker push asia-northeast1-docker.pkg.dev/$PROJECT_ID/blazorappcontainer/blazorappcontainer:latest
+```
+
+## Gogole App Engineにデプロイ
+
+```bash
+gcloud init
+```
+
+```bash
+gcloud app deploy --image-url=asia-northeast1-docker.pkg.dev/$PROJECT_ID/blazorappcontainer/blazorappcontainer:latest
+```
