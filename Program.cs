@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using BlazorAppContainer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddServiceDefaults();
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -25,4 +26,5 @@ app.UseRouting();
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
 
+app.MapDefaultEndpoints();
 app.Run();
